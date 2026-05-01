@@ -9,13 +9,15 @@ CACHE_FILE = "./postcode_cache.json"
 def load_cache() -> dict:
     """Loads the cache from a file and converts it from JSON to a dictionary."""
     # This function is used in Task 3, you can ignore it for now.
-    ...
+    with open(CACHE_FILE, "r") as f:
+        return json.load(f)
 
 
 def save_cache(cache: dict):
     """Saves the cache to a file as JSON"""
     # This function is used in Task 3, you can ignore it for now.
-    ...
+    with open(CACHE_FILE, "w") as f:
+        json.dump(cache, f, indent=4)
 
 
 
@@ -67,3 +69,4 @@ def get_postcodes_details(postcodes: list[str]) -> dict:
         raise req.RequestException('Unable to access API.', 500)
     details =response.json()
     return details["result"]
+

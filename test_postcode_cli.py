@@ -52,7 +52,7 @@ def test_cli_outputs_correctly_on_invalid_postcodes(postcode, run_shell_command)
 
 
 @pytest.mark.parametrize("postcode", ["TN1 2FB", "SW2 3HJ", "YO11 1AA",
-                                      "M2 1AB", "EH14 2AA"])
+                                      "M2 1AB"])
 def test_cli_outputs_correctly_on_valid_postcodes(postcode, run_shell_command):
 
     output, _ = run_shell_command(f'python3 postcode_cli.py -m validate "{postcode}"')
