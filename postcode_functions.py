@@ -39,18 +39,31 @@ def get_postcode_for_location(lat: float, long: float) -> str:
     if response.status_code == 500:
         raise req.RequestException('Unable to access API.', 500)
     location = response.json()
-    postcode = location[0]
     if location["result"] is None:
          if response.status_code == 200:
-            raise ValueError("No relevant postcode found.")
-    return postcode['postcode']
+            raise ValueError("No relevant postcode found.")      
+    return location["result"][0]["postcode"]
 
     
 
 
 def get_postcode_completions(postcode_start: str) -> list[str]:
-    pass
+    if not isinstance(postcode_start, str):
+            raise TypeError("Function expects a string.")
+    response = req.get(
+        f"https://api.postcodes.io/postcodes/{postcode_start}/autocomplete")
+    if response.status_code == 500:
+        raise req.RequestException('Unable to access API.', 500)
+    filled = response.json()
+    return filled["result"]
 
 
 def get_postcodes_details(postcodes: list[str]) -> dict:
-    pass
+    if not isinstance(postcodes, list) or not all(isinstance(p, str) for p in postcodes):
+        raise TypeError("Function expects a list of strings.")
+    response = req.post(
+        f"https://api.postcodes.io/postcodes")
+    if response.status_code == 500:
+        raise req.RequestException('Unable to access API.', 500)
+    details =response.json()
+    return details["result"]
